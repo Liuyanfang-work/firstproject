@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品详情页</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/iconfont.css">
+    <link rel="stylesheet" href="../css/shopdetail.css">
+</head>
+<body>
+    <div class="contain">
+        <header class="header">
+            <a href="../html/shoplist.html"><span class="iconfont icon-jiantou"></span></a>
+            <h2></h2>
+        </header>
+        <ul class="hidden">
+            <li><span class="select">宝贝</span></li>
+            <li><span>详情</span></li>
+        </ul>
+        <div class="content">
+            <div class="banner">
+                <p><span class="iconfont icon-shoucang1"></span><span class="iconfont icon-wode"></span></p>
+                <ul class="banner-img">
+                    
+                </ul>
+                <div class="count">
+                    <span>1</span>
+                    /
+                    <span></span>
+                </div>
+            </div>
+            <div class="price">
+                <h2>
+                    <a>超值兑</a>
+                    <i class="myprice"></i>
+                    <i>积分+￥</i>1
+                    <p>
+                        <img src="../img/score1.jpg" alt="">
+                        <em>
+                            <em>市场价</em>
+                            <i></i>
+                        </em>
+                    </p>
+                </h2>
+                <img src="../img/huiyuan.PNG" alt="" id="myimg">
+                <h3></h3>
+            </div>
+            <div class="public">
+                <ul class="publicswiper">
+                    <li><a href="http://wshop.wm18.com/bigwheel?act_id=19&PassKey=8c98604fa833653267dd377c59a6881f&SourceType=6"><img src="../img/mydetail.jpg" alt=""></a></li>
+                    <li><a href="../html/shopdetail.html"><img src="../img/mydetail1.jpg" alt=""></a></li>
+                    <li><a href="http://wshop.wm18.com/bigwheel?act_id=19&PassKey=8c98604fa833653267dd377c59a6881f&SourceType=6"><img src="../img/mydetail.jpg" alt=""></a></li>
+                </ul>
+                <ul class="publicbtn">
+                    <li class="active"></li>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="xiangqing">
+                <img src="../img/mypublic.jpg" alt="">
+            </div>
+        </div>
+        <ul class="myfixed">
+            <li class="iconfont icon-fenxiang"></li>
+            <li class="iconfont icon-saoma" id="saoma"><img src="../img/code.jpg" alt=""></li>
+            <li class="iconfont icon-zhiding" id="totop"></li>
+        </ul>
+        <div class="cart">
+        </div>
+        <div class="point">
+            加入购物车成功
+        </div>
+        <div class="shopcart">
+            <div class="close">x</div>
+            <div class="footerFQ">
+                <dl>
+                    <dt>
+                        <img src="../img/goods1.jpg" alt="">
+                    </dt> 
+                    <dd>
+                        <h2>O-Quick多用途强力清洁石400g</h2>
+                        <p class="jfhg">
+                            <img src="../img/score1.jpg" alt="">
+                            <i><b></b>490积分+￥1</i>
+                        </p>
+                    </dd>
+                </dl>
+                <ul class="slider-group">
+                    <li>
+                        购买数量
+                        <span>
+                            <button>-</button><input type="text" value="1"><button>+</button>
+                        </span>
+                    </li>
+                </ul>
+                <p class="font">剩余90件</p>
+                <div class="jifen-btn">
+                    <button>加入购物车</button> 
+                    <button>立即购买</button>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <ul>
+                <li><a><i class="iconfont icon-index"></i><span>首页</span></a></li>
+                <li><a><i class="iconfont icon-kefu"></i><span>客服</span></a></li>
+                <li><a><i class="iconfont icon-gouwuche"></i><span>购物车</span></a></li>
+                <li><button class="isOnlyjf">立即购买</button></li>
+                <li><button class="isOnlyjf">立即超值兑</button></li>
+            </ul>
+        </footer>
+    </div>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/shopdetail.js"></script>
+    <script>
+        $(function(){
+            var productId=location.search.split("=")[1]-1;
+
+            var str="";
+            $.get("http://localhost:3000/products",function(data){
+                $(".header h2").append(data[productId].name);
+                $(".price h3").append(data[productId].name);
+                $(".price h2 p i").append(data[productId].marketPrice);
+                $(".myprice").append(data[productId].price);
+                $(".banner ul").attr("width",750*(data[productId].img.length))
+                console.log(data[productId].img.length);
+                console.log(data[productId].img.length);
+                data[productId].img.forEach(ele => {
+                    str+=`
+                        <li><img src="${ele}" alt=""></li>
+                    `;
+                });
+                str+=`
+                        <li><img src="${data[productId].img[0]}" alt=""></li>
+                    `;
+                $(".banner-img").append(str);
+                $(".count span:last").append(data[productId].img.length);
+                // 轮播
+                var timer=null;
+                var index=0;
+                var count=1;
+                function next(num){// 下一张
+                    index++;
+                    iconbtn(count);
+                    count++;
+                    $(".banner-img").animate({left:-index*750},500);
+                    // num=长度-1
+                    if(index>num){
+                        index = 0;
+                        $(".banner-img").animate({left:0},0);
+                    }
+                    if(count>num){
+                        count=1;
+                    }
+                }
+                function iconbtn(i){
+                    $(".count span:first").empty();
+                    $(".count span:first").append(i);
+                }
+                function autoplay(num){// 自动播放
+                    timer = setInterval(function(){ 
+                        next(num);
+                        iconbtn(count);
+                    },2000) 
+                }
+                autoplay(data[productId].img.length);
+            }); 
+        });
+
+    </script>
+</body>
+</html>

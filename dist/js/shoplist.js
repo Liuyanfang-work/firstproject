@@ -34,6 +34,17 @@ $(".banner").click(function(){ //鼠标移入 定时器取消
 })
 autoplay();
 // 调json-server接口，将商品列表展示到页面上
-// $.get("http://localhost:3000/products",function(data){
-//     console.log(data);
-// });
+$.get("http://localhost:3000/products",function(data){
+    var str="";
+    data.forEach(ele => {
+        str=`
+        <li><a target="_blank" href="../html/shopdetail.html?id=${ele.id}">
+            <img src=${ele.img[0]} alt="">
+            <p class="adGoodsName">${ele.name} </p>
+            <p>市场价：<del>${ele.marketPrice} </del></p>
+            <p><span><i>${ele.price}</i>积分+￥<i>1</i></span></p>
+        </a></li>
+        `;
+        $(".goods ul").append(str);
+    });
+})
