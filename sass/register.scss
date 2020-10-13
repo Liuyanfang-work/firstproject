@@ -1,0 +1,122 @@
+html,body{
+    height: 100%;
+}
+body{
+    display: flex;
+    justify-content: center;
+}
+.contain{
+    width: 750px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+/* header */
+header {
+    background: #ededed;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+    color: #181818;
+    z-index: 10000;
+}
+.header span{
+    height: 20px;
+    line-height: 20px;
+    font-size: 20px;
+    position: absolute;
+    left: 15px;
+    top: 10px;
+    cursor: pointer;
+}
+.header h2 {
+    text-align: center;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 40px;
+}
+// content
+.content>h2{
+    color: #333;
+    font-size: 28px;
+    font-weight: normal;
+    padding: 50px 0 10px 25px;
+    text-align: left;
+}
+.content>h3{
+    color: #999;
+    font-size: 14px;
+    padding: 0 0 50px 25px;
+}
+.content {
+    dl{ 
+        margin-bottom: 20px;
+        padding: 0 25px;
+        dt{
+            border-bottom: #e3e3e3 1px solid;
+            position: relative;
+            padding-top: 16px;
+            input {
+                height: 34px;
+                background: none;
+                width: 100%;
+                padding: 0 5px;
+                -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+                font-size: 14px;
+                color: #333;
+                border: 0;
+                -webkit-appearance: none;
+            }
+            button{
+                position: absolute;
+                right: 0;
+                bottom: 0px;
+                line-height: 30px;
+                padding: 0 5px;
+                font-size: 14px;
+                color: #fc448e;
+            }
+        } 
+    }
+}
+
+.loginButton button {
+    background: #ff1b5f;
+    height: 44px;
+    border-radius: 22px;
+    color: #fff;
+    text-align: center;
+    width: 100%;
+    font-size: 16px;
+    outline: none;
+}
+.loginText{
+    text-align: center;
+    line-height: 50px;
+    color: #999;
+    span {
+        text-decoration: underline;
+    }
+}
+// footer
+.footer{
+    position: absolute;
+    top: 100px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 400px;
+    height: 60px;
+    background-color: #333333;
+    opacity: .4;
+    .rephone{
+        // display: none;
+        width: 400px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+    }
+}
