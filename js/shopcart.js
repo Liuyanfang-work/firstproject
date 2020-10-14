@@ -5,13 +5,14 @@ $(function(){
             var str="";
             res.data.forEach(ele => {
                 // console.log(ele);
+                console.log(ele.pid);
                 var arr=ele.pimg.split(",");
                 str+=`
                 <div class="Box">
-                    <input type="checkbox" name="" class="xuan">
+                    <input type="checkbox" name="" class="xuan" data-id="${ele.pid}">
                     <dl>
                         <dt>
-                            <img src="${arr[0]}">
+                            <a href="../html/shopdetail.html?id=${ele.pid}"><img src="${arr[0]}"></a>
                         </dt>
                         <dd>
                             <h2>
@@ -20,8 +21,8 @@ $(function(){
                             <h3>
                                 <strong>￥<span class="price">${ele.pprice}</span></strong>
                                 <div class="num-box">
-                                    <button class="reduce" data-id=${ele.id}>-</button> 
-                                    <input type="text" value="${ele.pnum}" >
+                                    <button class="reduce">-</button> 
+                                    <input type="text" value="${ele.pnum}" data-id=${ele.pid}>
                                     <button class="add">+</button>
                                 </div>
                             </h3>
@@ -32,10 +33,7 @@ $(function(){
                 
             });
             $(".list").append(str);
-             // Box的点击事件
-            //  $(".reduce").click(function(){
-                
-            // });
+             
             // 购物车操作
             // 购物车小红点和总共几件商品
             $(".footer ul li:nth-child(4) .circle").empty();
@@ -47,6 +45,33 @@ $(function(){
                 $(this).hide().siblings().show();
                 $(".two").show();
                 $(".one").hide();
+                // 勾选之后点击删除按钮
+                $(".xuan").click(
+                    function(){
+                        if($(".Box .xuan:checked").length==$(".Box").length){
+                            $(".footbox .left input").prop("checked","true");
+                        }else{
+                            $(".footbox .left input").removeAttr("checked",false); 
+                        }
+                        // 点击全选全部选中
+                        $(".footbox .left span").click(function(){
+                            if( !$(".Box .xuan").is(':checked')){ //全选
+                                $(".Box .xuan").prop("checked","true");
+                                $(".footbox .left input").prop("checked","true");  
+                            }else{//取消全选
+                                $(".Box .xuan").removeAttr("checked",false);
+                                $(".footbox .left input").removeAttr("checked",false);   
+                            }
+                        });
+                        $(".xuan:checked").each(data=>{
+                            var delid=$(this).attr("data-id");
+                           $(".two button:last").click(function(){
+                            $.get("http://jx.xuzhixiang.top/ap/api/cart-delete.php?uid=43422&pid="+delid);
+                            location.reload();
+                           });
+                        });        
+                    }
+                );
             });
             $(".handle span:last").click(function(){
                 $(this).hide().siblings().show();
@@ -62,12 +87,6 @@ $(function(){
                     num=1;
                 }
                 $(this).siblings("input").val(num); 
-                var myid=$(this).attr("data-id");
-                console.log(myid);
-                console.log($(this).siblings("input").val());
-                $.get("http://jx.xuzhixiang.top/ap/api/cart-update-num.php?uid=43422&pid="+myid+"&pnum="+$(this).siblings("input").val(),function(res){
-                    console.log(res);
-                });
                 Total();
             });
             $(".add").click(function(){
@@ -79,7 +98,6 @@ $(function(){
             });
             // 点击全选,全部选中
             $(".footbox .left span").click(function(){
-            
                 if( !$(".Box .xuan").is(':checked')){ //全选
                     $(".Box .xuan").prop("checked","true");
                     $(".footbox .left input").prop("checked","true");  
@@ -88,7 +106,10 @@ $(function(){
                     $(".footbox .left input").removeAttr("checked",false);   
                 }
                 Total();
-                return false;
+            });
+            // 点击首页跳转到列表页
+            $(".footer ul li:nth-child(1)").click(function(){
+                location.href="shoplist.html";
             });
             // 点击全部单选框会选中全选框
             $(".Box .xuan").click(function(){
@@ -120,6 +141,32 @@ $(function(){
                 $(".one p span i").empty();
                 $(".one p span i").append(total);
             }
-           
+            // 点击箭头跳转到首页
+            $(".header a").click(function(){
+                location.href="shoplist.html";
+                return false;
+            });
+            // 点击图片跳转到相应的详情页面
+            $(".Box dl dt img").click(function(){
+                console.log($(this).attr("data-id"));
+            });
+        //    更新购物车里面的数据
+                // $.ajax({
+                //     type: "get",
+                //     url: "http://jx.xuzhixiang.top/ap/api/cart-update-num.php",
+                //     data: {
+                //         uid:43422,
+                //         pid:myid,
+                //         pnum:$(this).siblings("input").val()
+                //     },
+                //     dataType: "json",
+                //     success: function (response) {
+                //         $.get("http://jx.xuzhixiang.top/ap/api/cart-list.php?id=43422",res=>{
+                //             console.log(res)
+                //         })
+                //             // console.log(res.data);
+                //         console.log(response)  
+                //     }
+                // });
         });
 });

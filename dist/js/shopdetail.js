@@ -1,7 +1,7 @@
 $(function () {
 // 请求数据
 var productId=location.search.split("=")[1];
-    
+   
 var str="";
 $.get("http://jx.xuzhixiang.top/ap/api/detail.php?id="+productId,function(res){
     // console.log(res.data);
@@ -58,9 +58,7 @@ $.get("http://jx.xuzhixiang.top/ap/api/detail.php?id="+productId,function(res){
     if(arr.length>1){
         autoplay(arr.length);
     }
-    
-}); 
-// 公共轮播
+    // 公共轮播
 var timer1=null;
 var index1=0;
 
@@ -143,7 +141,21 @@ $("#saoma").click(function(){
     }
     return false;
 });
+var fqstr="";
 $(".isOnlyjf").click(function(){
+    fqstr+=`
+            <dt>
+                <img src="${arr[0]}" alt="">
+            </dt> 
+            <dd>
+                <h2>${res.data.pname}</h2>
+                <p class="jfhg">
+                    <img src="../img/score1.jpg" alt="">
+                    <i><b></b>${res.data.pprice}积分+￥1</i>
+                </p>
+            </dd>
+    `;
+$(".footerFQ dl").append(fqstr);
     $(".shopcart").show();
     $("body").css("overflow","hidden");
     $(".cart").show(); 
@@ -181,4 +193,10 @@ $(".slider-group button:first").click(function(){
     }
     $(".slider-group input").val(num);
 });
+// 点击首页跳转到列表页
+$(".footer ul li:nth-child(1)").click(function(){
+    location.href="shoplist.html";
+});
+}); 
+
 })
