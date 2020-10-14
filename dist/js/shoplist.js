@@ -34,17 +34,21 @@ $(".banner").click(function(){ //鼠标移入 定时器取消
 })
 autoplay();
 // 调json-server接口，将商品列表展示到页面上
-$.get("http://localhost:3000/products",function(data){
+$.get("http://jx.xuzhixiang.top/ap/api/productlist.php?uid=43422",function(res){
     var str="";
-    data.forEach(ele => {
+    console.log(res.data);
+    for(let i=0;i<res.data.length;i++){
+        // console.log(res.data[i]);
+        var arr=res.data[i].pimg.split(",");
+        // console.log(arr);
         str=`
-        <li><a target="_blank" href="../html/shopdetail.html?id=${ele.id}">
-            <img src=${ele.img[0]} alt="">
-            <p class="adGoodsName">${ele.name} </p>
-            <p>市场价：<del>${ele.marketPrice} </del></p>
-            <p><span><i>${ele.price}</i>积分+￥<i>1</i></span></p>
+        <li><a target="_blank" href="../html/shopdetail.html?id=${res.data[i].pid}">
+            <img src=${arr[0]} alt="">
+            <p class="adGoodsName">${res.data[i].pname} </p>
+            <p>市场价：<del>${res.data[i].pdesc} </del></p>
+            <p><span><i>${res.data[i].pprice}</i>积分+￥<i>1</i></span></p>
         </a></li>
         `;
         $(".goods ul").append(str);
-    });
+    }
 })

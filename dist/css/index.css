@@ -98,6 +98,9 @@ a{
     margin-left: 160px;
 } 
 .nav-left a img{
+    width: 400px;
+    height: 200px;
+
     border-radius: 0 0 15px 0;
 }
 .nav-left a h3{

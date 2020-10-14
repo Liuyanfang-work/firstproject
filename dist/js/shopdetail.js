@@ -1,5 +1,65 @@
 $(function () {
-
+// 请求数据
+var productId=location.search.split("=")[1];
+    
+var str="";
+$.get("http://jx.xuzhixiang.top/ap/api/detail.php?id="+productId,function(res){
+    // console.log(res.data);
+    var arr=res.data.pimg.split(",");
+    $(".header h2").append(res.data.pname);
+    $(".price h3").append(res.data.pname);
+    $(".price h2 p i").append(res.data.pdesc);
+    $(".myprice").append(res.data.pprice);
+    $(".banner ul").attr("width",750*(arr.length))
+    
+    arr.forEach(ele => {
+        str+=`
+            <li><img src="${ele}" alt=""></li>
+        `;
+    });
+    str+=`
+            <li><img src="${arr[0]}" alt=""></li>
+        `;
+    $(".banner-img").append(str);
+    $(".count span:last").append(arr.length);
+    // 轮播
+    var timer=null;
+    var index=0;
+    var count=1;
+    // if(arr.length==1){
+    //     clearInterval(timer);
+    //     console.log("ok");
+    // }
+    function next(num){// 下一张
+        index++;
+        iconbtn(count);
+        count++;
+        $(".banner-img").animate({left:-index*750},500);
+        // num=长度-1
+        if(index>num){
+            index = 0;
+            $(".banner-img").animate({left:0},0);
+        }
+        if(count>num){
+            count=1;
+        }
+    }
+    function iconbtn(i){
+        $(".count span:first").empty();
+        $(".count span:first").append(i);
+    }
+    function autoplay(num){// 自动播放
+        timer = setInterval(function(){ 
+            next(num);
+            iconbtn(count);
+        },2000) 
+    }
+    // 定时器取消
+    if(arr.length>1){
+        autoplay(arr.length);
+    }
+    
+}); 
 // 公共轮播
 var timer1=null;
 var index1=0;
@@ -96,6 +156,9 @@ $(".isOnlyjf").click(function(){
                 $(".point").hide();
             },2000)  
         );
+        $.get("http://jx.xuzhixiang.top/ap/api/add-product.php?uid=43422&pid="+productId+"&pnum="+$(".slider-group input").val(),data=>{
+            console.log(data);
+        });
     });
     
 });

@@ -114,60 +114,13 @@
     <script src="../js/jquery.js"></script>
     <script src="../js/shopdetail.js"></script>
     <script>
-        $(function(){
-            var productId=location.search.split("=")[1]-1;
-
-            var str="";
-            $.get("http://localhost:3000/products",function(data){
-                $(".header h2").append(data[productId].name);
-                $(".price h3").append(data[productId].name);
-                $(".price h2 p i").append(data[productId].marketPrice);
-                $(".myprice").append(data[productId].price);
-                $(".banner ul").attr("width",750*(data[productId].img.length))
-                console.log(data[productId].img.length);
-                console.log(data[productId].img.length);
-                data[productId].img.forEach(ele => {
-                    str+=`
-                        <li><img src="${ele}" alt=""></li>
-                    `;
-                });
-                str+=`
-                        <li><img src="${data[productId].img[0]}" alt=""></li>
-                    `;
-                $(".banner-img").append(str);
-                $(".count span:last").append(data[productId].img.length);
-                // 轮播
-                var timer=null;
-                var index=0;
-                var count=1;
-                function next(num){// 下一张
-                    index++;
-                    iconbtn(count);
-                    count++;
-                    $(".banner-img").animate({left:-index*750},500);
-                    // num=长度-1
-                    if(index>num){
-                        index = 0;
-                        $(".banner-img").animate({left:0},0);
-                    }
-                    if(count>num){
-                        count=1;
-                    }
-                }
-                function iconbtn(i){
-                    $(".count span:first").empty();
-                    $(".count span:first").append(i);
-                }
-                function autoplay(num){// 自动播放
-                    timer = setInterval(function(){ 
-                        next(num);
-                        iconbtn(count);
-                    },2000) 
-                }
-                autoplay(data[productId].img.length);
-            }); 
+        // 查询购物车接口中的数据
+        $.get("http://jx.xuzhixiang.top/ap/api/cart-list.php?id=43422",res=>{
+        console.log(res);
         });
-
+        $(".footer li:nth-child(3)").click(function(){
+            location.href="shopcart.html";
+        });
     </script>
 </body>
 </html>
