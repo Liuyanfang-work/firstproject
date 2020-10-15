@@ -160,6 +160,9 @@ $(".footerFQ dl").append(fqstr);
     $("body").css("overflow","hidden");
     $(".cart").show(); 
     $(".jifen-btn button:first").click(function(){
+        if(!getCookie("uid")){
+            location.href="log.html"
+        }
         $("body").css("overflow","");
         $(".cart").hide();
         $(".shopcart").hide();
@@ -168,7 +171,8 @@ $(".footerFQ dl").append(fqstr);
                 $(".point").hide();
             },2000)  
         );
-        $.get("http://jx.xuzhixiang.top/ap/api/add-product.php?uid=43422&pid="+productId+"&pnum="+$(".slider-group input").val(),data=>{
+        let uid=getCookie("uid");
+        $.get("http://jx.xuzhixiang.top/ap/api/add-product.php?uid="+uid+"&pid="+productId+"&pnum="+$(".slider-group input").val(),data=>{
             console.log(data);
         });
     });

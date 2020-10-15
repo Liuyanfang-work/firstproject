@@ -1,6 +1,16 @@
 $(function(){
     // 查询购物车接口中的数据
-$.get("http://jx.xuzhixiang.top/ap/api/cart-list.php?id=43422",res=>{
+    if(!getCookie("uid")){
+        location.href="log.html"
+    }
+    let uid=getCookie("uid");
+    // 点击注销退出登录
+    $(".header button").click(function(){
+        removeCookie("uid");
+        location.href="shoplist.html";
+    });
+
+$.get("http://jx.xuzhixiang.top/ap/api/cart-list.php?id="+uid,res=>{
     // console.log(res.data);
         var str="";
         res.data.forEach(ele => {
@@ -41,7 +51,6 @@ $.get("http://jx.xuzhixiang.top/ap/api/cart-list.php?id=43422",res=>{
         $(".top p span").empty();
         $(".top p span").append($(".Box").length);
 
-        
         // 点击管理变完成出现删除按钮
         $(".handle span:first").click(function(){
             $(this).hide().siblings().show();
@@ -77,7 +86,7 @@ $.get("http://jx.xuzhixiang.top/ap/api/cart-list.php?id=43422",res=>{
                     $(".xuan:checked").each(data=>{
                         var delid=$(this).attr("data-id");
                         $(".two button:last").click(function(){
-                            $.get("http://jx.xuzhixiang.top/ap/api/cart-delete.php?uid=43422&pid="+delid);
+                            $.get("http://jx.xuzhixiang.top/ap/api/cart-delete.php?uid="+uid+"&pid="+delid);
                             // $(this).parent().remove();
                             // console.log($(this).parent().get());
                             location.reload();
@@ -92,8 +101,6 @@ $.get("http://jx.xuzhixiang.top/ap/api/cart-list.php?id=43422",res=>{
             $(".one").show();
         });
 
-
-
         // 获取reduce和add
         $(".reduce").click(function(){
             let num=$(this).siblings("input").val();
@@ -105,7 +112,7 @@ $.get("http://jx.xuzhixiang.top/ap/api/cart-list.php?id=43422",res=>{
             // 修改购物车数据
             var mypid=$(this).attr("data-id");
             // console.log(mypid);
-            $.get("http://jx.xuzhixiang.top/ap/api/cart-update-num.php?uid=43422&pid="+mypid+"&pnum="+$(this).siblings("input").val());
+            $.get("http://jx.xuzhixiang.top/ap/api/cart-update-num.php?uid="+uid+"&pid="+mypid+"&pnum="+$(this).siblings("input").val());
             Total();
         });
         $(".add").click(function(){
@@ -116,7 +123,7 @@ $.get("http://jx.xuzhixiang.top/ap/api/cart-list.php?id=43422",res=>{
             // 修改购物车数据
             var mypid=$(this).attr("data-id");
             // console.log(mypid);
-            $.get("http://jx.xuzhixiang.top/ap/api/cart-update-num.php?uid=43422&pid="+mypid+"&pnum="+$(this).siblings("input").val());
+            $.get("http://jx.xuzhixiang.top/ap/api/cart-update-num.php?uid="+uid+"&pid="+mypid+"&pnum="+$(this).siblings("input").val());
             Total();
         });
         // 点击全选,全部选中

@@ -113,9 +113,12 @@
     </div>
     <script src="../js/jquery.js"></script>
     <script src="../js/shopdetail.js"></script>
+    <script src="../js/cookie.js"></script>
     <script>
         // 查询购物车接口中的数据
-        $.get("http://jx.xuzhixiang.top/ap/api/cart-list.php?id=43422",res=>{
+        let uid = getCookie("uid");
+        console.log(uid);
+        $.get("http://jx.xuzhixiang.top/ap/api/cart-list.php?id="+uid,res=>{
         console.log(res);
         });
         $(".footer li:nth-child(3)").click(function(){

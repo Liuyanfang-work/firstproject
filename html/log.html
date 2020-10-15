@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../css/iconfont.css">
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/register.css">
+    <script src="../js/cookie.js"></script>
 </head>
 <body>
     <div class="contain">
@@ -54,10 +55,21 @@
             }
             $.get("http://jx.xuzhixiang.top/ap/api/login.php?username="+$("#myphone").val()+"&password="+$("#myword").val())
             .then(data=>{
+                // console.log(data.data.id);
                 if(data.code==1){
-                    location.href="index.html"
+                    let uid=data.data.id;
+                    setCookie('uid',uid)
+                    location.href="shopcart.html"
                 }else{
-                    alert("有错");
+                    $.get("http://jx.xuzhixiang.top/ap/api/checkname.php?username="+$("#myphone").val(),function(data){
+                        console.log(data);
+                        if(data.code==1){
+                            location.href="register.html";
+                        }else{
+                            alert("用户名或者密码不存在");
+                        }
+                    });
+                   
                 }
             });
             

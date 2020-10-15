@@ -53,8 +53,13 @@ $(function(){
             $(".goods ul").append(str);
         }
     })
-    // 点击购物车调转到购物车页面
+    // 点击注销退出登录
+    $(".header button").click(function(){
+        removeCookie("uid");
+        location.href="shoplist.html";
+    });
     $(".footer ul li:nth-child(4)").click(function(){
         location.href="shopcart.html";
     });
+    
 });
